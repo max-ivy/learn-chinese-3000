@@ -1,6 +1,6 @@
 # Learn Chinese 3000
 
-Mandarin Flashcards is a web application that helps users 
+Learn Chinese 3000 is a web application that helps users 
 learn Mandarin Chinese vocabulary using a flashcard system. 
 Users can navigate through the cards, add new cards, delete cards, 
 and upload CSV files with vocabulary data.
