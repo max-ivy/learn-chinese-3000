@@ -8,7 +8,7 @@ import os
 import csv
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27019/mandarin"
+app.config["MONGO_URI"] = "Mongo_URI"
 client = MongoClient(app.config["MONGO_URI"])
 mongo = PyMongo(app)
 db = client["mandarin"]
@@ -78,7 +78,7 @@ def get_random_card():
         }}
     ]
     random_card = cards_collection.aggregate(pipeline).next()
-    random_card["_id"] = str(random_card["_id"])  # convert ObjectId to string
+    random_card["_id"] = str(random_card["_id"])
     return jsonify(random_card)
 
 @app.route("/get_card_back")
@@ -114,7 +114,7 @@ def get_next_card():
         if not next_card:
             next_card = cards_collection.find_one(sort=[("_id", 1)])
 
-    next_card['_id'] = str(next_card['_id'])  # convert ObjectId to string
+    next_card['_id'] = str(next_card['_id'])
     return jsonify(next_card)
 
 @app.route("/get_prev_card")
@@ -140,7 +140,7 @@ def get_prev_card():
         if not prev_card:
             prev_card = cards_collection.find_one(sort=[("_id", -1)])
 
-    prev_card['_id'] = str(prev_card['_id'])  # convert ObjectId to string
+    prev_card['_id'] = str(prev_card['_id'])
     return jsonify(prev_card)
 
 
@@ -156,7 +156,7 @@ def get_all_cards():
     all_cards = []
 
     for card in cards:
-        card["_id"] = str(card["_id"])  # convert ObjectId to string
+        card["_id"] = str(card["_id"])
         all_cards.append(card)
 
     return jsonify(all_cards)
@@ -164,7 +164,7 @@ def get_all_cards():
 @app.route("/add_card", methods=["POST"])
 def add_card():
     card_data = request.json
-    print("Request data:", request.data)  # Add this line
+    print("Request data:", request.data)
     print("Received card data:", card_data)
 
     new_card = {
