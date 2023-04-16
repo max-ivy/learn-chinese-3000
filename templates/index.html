@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Learn Chinese 3000</title>
     <link rel="stylesheet" href="static/css/styles.css">
 </head>
 <body>
@@ -28,7 +28,11 @@
         <button id="next-button">Next</button>
         <label for="randomize" id="randomize-label">Randomize</label>
         <input type="checkbox" id="randomize">
-      </div>
+        <label for="flashcard-category-filter" id="flashcard-category-filter-label">Category:</label>
+        <select id="flashcard-category-filter">
+          <option value="all">All</option>
+        </select>
+    </div>
 
 <!-- Database View -->
 <section id="database-view">
@@ -62,8 +66,6 @@
 </form>
 <br>
 <h2>Database</h2>
-
-
     <!-- Table for displaying the cards in the database -->
     <div class="table-container">
     <table id="cards-table">
@@ -73,7 +75,12 @@
                 <th>Translation (English)</th>
                 <th>Pinyin</th>
                 <th>Type</th>
-                <th>Category</th>
+                <th>
+                        <label for="category-filter">Category:</label>
+                        <select id="category-filter">
+                            <option value="all">All</option>
+                        </select>                        
+                </th>
                 <th>Action</th>
             </tr>
         </thead>

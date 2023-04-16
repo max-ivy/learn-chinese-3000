@@ -61,25 +61,46 @@ def home():
 
 @app.route("/get_random_card", methods=["GET"])
 def get_random_card():
-    pipeline = [
-        {"$sample": {"size": 1}},
-        {"$project": {
-            "_id": 1,
-            "word": 1,
-            "translation": 1,
-            "pinyin": 1,
-            "type": 1,
-            "category": 1,
-            "word_back": 1,
-            "translation_back": 1,
-            "pinyin_back": 1,
-            "type_back": 1,
-            "category_back": 1
-        }}
-    ]
+    category = request.args.get('category', 'all')
+    if category == 'all':
+        pipeline = [
+            {"$sample": {"size": 1}},
+            {"$project": {
+                "_id": 1,
+                "word": 1,
+                "translation": 1,
+                "pinyin": 1,
+                "type": 1,
+                "category": 1,
+                "word_back": 1,
+                "translation_back": 1,
+                "pinyin_back": 1,
+                "type_back": 1,
+                "category_back": 1
+            }}
+        ]
+    else:
+        pipeline = [
+            {"$match": {"category": category}},
+            {"$sample": {"size": 1}},
+            {"$project": {
+                "_id": 1,
+                "word": 1,
+                "translation": 1,
+                "pinyin": 1,
+                "type": 1,
+                "category": 1,
+                "word_back": 1,
+                "translation_back": 1,
+                "pinyin_back": 1,
+                "type_back": 1,
+                "category_back": 1
+            }}
+        ]
     random_card = cards_collection.aggregate(pipeline).next()
-    random_card["_id"] = str(random_card["_id"])  # convert ObjectId to string
+    random_card["_id"] = str(random_card["_id"])
     return jsonify(random_card)
+
 
 @app.route("/get_card_back")
 def get_card_back():
@@ -90,57 +111,103 @@ def get_card_back():
     card['_id'] = str(card['_id'])  # convert ObjectId to string
     return jsonify(card)
 
-
 @app.route("/get_next_card")
 def get_next_card():
     current_card_id = ObjectId(request.args.get("current_card_id"))
     randomize = request.args.get("randomize") == "true"
+    category = request.args.get('category', 'all')
 
+    print(f"Next card route called with current_card_id: {current_card_id}, randomize: {randomize}, category: {category}")
     if randomize:
-        pipeline = [
-            {"$sample": {"size": 1}},
-            {"$project": {
-                "_id": 1,
-                "word": 1,
-                "translation": 1,
-                "pinyin": 1,
-                "type": 1,
-                "category": 1,
-            }}
-        ]
+        if category == 'all':
+            pipeline = [
+                {"$sample": {"size": 1}},
+                {"$project": {
+                    "_id": 1,
+                    "word": 1,
+                    "translation": 1,
+                    "pinyin": 1,
+                    "type": 1,
+                    "category": 1,
+                }}
+            ]
+        else:
+            pipeline = [
+                {"$match": {"category": category}},
+                {"$sample": {"size": 1}},
+                {"$project": {
+                    "_id": 1,
+                    "word": 1,
+                    "translation": 1,
+                    "pinyin": 1,
+                    "type": 1,
+                    "category": 1,
+                }}
+            ]
         next_card = cards_collection.aggregate(pipeline).next()
     else:
-        next_card = cards_collection.find_one({"_id": {"$gt": current_card_id}}, sort=[("_id", 1)])
-        if not next_card:
-            next_card = cards_collection.find_one(sort=[("_id", 1)])
+        query = {"_id": {"$gt": current_card_id}}
+        if category != 'all':
+            query["category"] = category
+        next_card = cards_collection.find_one(query, sort=[("_id", 1)])
+        if not next_card and category != 'all':
+            query["_id"] = {"$gt": ObjectId('000000000000000000000000')}
+            next_card = cards_collection.find_one(query, sort=[("_id", 1)])
 
-    next_card['_id'] = str(next_card['_id'])  # convert ObjectId to string
+    if not next_card:
+        return jsonify({"error": "No cards found"}), 404
+
+    next_card['_id'] = str(next_card['_id'])
     return jsonify(next_card)
 
 @app.route("/get_prev_card")
 def get_prev_card():
     current_card_id = ObjectId(request.args.get("current_card_id"))
     randomize = request.args.get("randomize") == "true"
+    category = request.args.get('category', 'all')
+
+    print(f"Prev card route called with current_card_id: {current_card_id}, randomize: {randomize}, category: {category}")
 
     if randomize:
-        pipeline = [
-            {"$sample": {"size": 1}},
-            {"$project": {
-                "_id": 1,
-                "word": 1,
-                "translation": 1,
-                "pinyin": 1,
-                "type": 1,
-                "category": 1,
-            }}
-        ]
+        if category == 'all':
+            pipeline = [
+                {"$sample": {"size": 1}},
+                {"$project": {
+                    "_id": 1,
+                    "word": 1,
+                    "translation": 1,
+                    "pinyin": 1,
+                    "type": 1,
+                    "category": 1,
+                }}
+            ]
+        else:
+            pipeline = [
+                {"$match": {"category": category}},
+                {"$sample": {"size": 1}},
+                {"$project": {
+                    "_id": 1,
+                    "word": 1,
+                    "translation": 1,
+                    "pinyin": 1,
+                    "type": 1,
+                    "category": 1,
+                }}
+            ]
         prev_card = cards_collection.aggregate(pipeline).next()
     else:
-        prev_card = cards_collection.find_one({"_id": {"$lt": current_card_id}}, sort=[("_id", -1)])
-        if not prev_card:
-            prev_card = cards_collection.find_one(sort=[("_id", -1)])
+        query = {"_id": {"$lt": current_card_id}}
+        if category != 'all':
+            query["category"] = category
+        prev_card = cards_collection.find_one(query, sort=[("_id", -1)])
+        if not prev_card and category != 'all':
+            query["_id"] = {"$lt": ObjectId('ffffffffffffffffffffffff')}
+            prev_card = cards_collection.find_one(query, sort=[("_id", -1)])
 
-    prev_card['_id'] = str(prev_card['_id'])  # convert ObjectId to string
+    if not prev_card:
+        return jsonify({"error": "No cards found"}), 404
+
+    prev_card['_id'] = str(prev_card['_id'])
     return jsonify(prev_card)
 
 
@@ -156,7 +223,7 @@ def get_all_cards():
     all_cards = []
 
     for card in cards:
-        card["_id"] = str(card["_id"])  # convert ObjectId to string
+        card["_id"] = str(card["_id"])
         all_cards.append(card)
 
     return jsonify(all_cards)
@@ -164,7 +231,7 @@ def get_all_cards():
 @app.route("/add_card", methods=["POST"])
 def add_card():
     card_data = request.json
-    print("Request data:", request.data)  # Add this line
+    print("Request data:", request.data)
     print("Received card data:", card_data)
 
     new_card = {
@@ -178,8 +245,6 @@ def add_card():
     cards_collection.insert_one(new_card)
     return jsonify({"result": "Card added successfully"}), 201
 
-
-
 @app.route("/delete_card/<card_id>", methods=["DELETE"])
 def delete_card(card_id):
     card_id_obj = ObjectId(card_id)
@@ -192,4 +257,4 @@ def delete_card(card_id):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=4990)
+    app.run(debug=True, port=4991)
