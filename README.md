@@ -5,6 +5,10 @@ learn Mandarin Chinese vocabulary using a flashcard system.
 Users can navigate through the cards, add new cards, delete cards, 
 and upload CSV files with vocabulary data.
 
+<img width="397" alt="Screenshot 2023-04-15 at 6 26 46 PM" src="https://user-images.githubusercontent.com/34040500/232261199-9cc666ab-a7fd-4713-bff3-7ee778150eac.png">
+<img width="397" alt="Screenshot 2023-04-15 at 6 27 05 PM" src="https://user-images.githubusercontent.com/34040500/232261203-bdefc626-2aa6-4251-997f-9a440f76f67a.png">
+
+
 ## Features
 
 - Randomly generated flashcards
