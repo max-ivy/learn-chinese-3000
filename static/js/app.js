@@ -84,9 +84,6 @@ $(document).ready(function() {
         $("#flashcard-front").hide();
         $("#flashcard-back").show();
     }
-    
-    
-      
   
     // flip card to reveal front
     function unflipCard() {
@@ -132,13 +129,11 @@ $(document).ready(function() {
             }
         });
     }
-    
   
     // bind click handlers to buttons
     $("#flip-button").click(function() {
         $("#flashcard").toggleClass("flip");
     });
-    
   
     $("#next-button").click(function() {
       getNextCard();
@@ -178,7 +173,6 @@ $("#randomize").change(function() {
 // function to load all cards into the table
 function loadCards() {
   // Make a request to the server to get all cards from the database
-  // Replace the URL with the appropriate route in your app.py
   $.getJSON('/get_all_cards', function(data) {
     let tableBody = $('#cards-table tbody');
     tableBody.empty();
@@ -244,8 +238,8 @@ $('#add-card-form').submit(function(event) {
 $('#cards-table tbody').on('click', '.delete-card', function() {
   let cardId = $(this).data('id');
   
-  // Make a request to the server to delete the card
-  $.ajax({
+// Make a request to the server to delete the card
+$.ajax({
       url: `/delete_card/${cardId}`,
       method: 'DELETE',
       success: function() {
