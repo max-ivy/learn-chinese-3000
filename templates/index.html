@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+</head>
+<body>
+    <div id="flashcard-container">
+        <div id="flashcard">
+            <div id="flashcard-front">
+                <h1 id="word">Word (Mandarin)</h1>
+            </div>
+            <div id="flashcard-back">
+                <h2 id="translation">Translation (English)</h2>
+                <p id="pinyin">Pinyin</p>
+                <p id="type">Type</p>
+                <p id="category">Category</p>
+            </div>
+        </div>
+    </div>
+      </div>
+      <div id="controls">
+        <button id="prev-button">Prev</button>
+        <button id="flip-button">Flip</button>
+        <button id="next-button">Next</button>
+        <label for="randomize" id="randomize-label">Randomize</label>
+        <input type="checkbox" id="randomize">
+      </div>
+
+<!-- Database View -->
+<section id="database-view">
+<br>
+<h2>Add Multiple Cards (.csv)</h2>
+
+<form id="csv-upload-form">
+    <input type="file" id="csv-file" accept=".csv" />
+    <button type="submit" id="submit-button">Upload CSV</button>
+</form>
+<br>
+<h2>Add New Card</h2>
+<!-- Form for adding new cards -->
+<form id="add-card-form" action="/add_card" method="POST">
+    <label for="word" class="form-labels">Word or Phrase (Mandarin):</label>
+    <input type="text" id="word-input" name="word_input" required>
+    <!-- <br> -->
+    <label for="translation" class="form-labels">Translation (English):</label>
+    <input type="text" id="translation-input" name="translation_input" required>
+    <!-- <br> -->
+    <label for="pinyin" class="form-labels">Pinyin:</label>
+    <input type="text" id="pinyin-input" name="pinyin_input" required>
+    <!-- <br> -->
+    <label for="type" class="form-labels">Type:</label>
+    <input type="text" id="type-input" name="type_input" required>
+    <!-- <br> -->
+    <label for="category" class="form-labels">Category:</label>
+    <textarea id="category-input" name="category_input" required></textarea>
+    <br>
+    <button type="submit" id="submit-button">Add Card</button>
+</form>
+<br>
+<h2>Database</h2>
+
+
+    <!-- Table for displaying the cards in the database -->
+    <div class="table-container">
+    <table id="cards-table">
+        <thead>
+            <tr>
+                <th>Word or Phrase (Mandarin)</th>
+                <th>Translation (English)</th>
+                <th>Pinyin</th>
+                <th>Type</th>
+                <th>Category</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Table rows populated by JavaScript -->
+        </tbody>
+    </table>
+    </div>
+</section>      
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="static/js/app.js"></script>
+</body>
+</html>

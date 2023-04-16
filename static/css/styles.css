@@ -1,0 +1,253 @@
+body {
+    background-color: #f9f9f9;
+    font-family: Arial, sans-serif;
+  }
+  
+  #flashcard {
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+  
+  #flashcard-container {
+    width: 400px;
+    height: 250px;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    background-color: #fff;
+    perspective: 1000px;
+  }
+  
+  #flashcard-front,
+  #flashcard-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    backface-visibility: hidden; /* This is needed to avoid flickering */
+    transform: rotateY(0deg);
+    transform-style: preserve-3d;
+  }
+  
+  #flashcard-back {
+    transform: rotateY(180deg);
+  }
+  
+  #word {
+    font-size: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  #translation {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  #pinyin,
+  #type,
+  #category {
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  #category {
+    max-height: 100px;
+    overflow-y: auto;
+    padding: 0 10px;
+    text-align: center;
+  }
+  
+  #controls {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #prev-button,
+  #next-button,
+  #flip-button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #618DDE;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  #flip-button {
+    background-color: #CE77F4;
+  }
+  
+  label {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+  
+  input[type="checkbox"] {
+    transform: scale(1.5);
+  }
+  
+  .flip {
+    transform: rotateY(180deg);
+  }
+  
+  #database-view {
+    max-width: 800px;
+    width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  #database-view h2 {
+    margin-bottom: 20px;
+  }
+  
+  /* Form */
+  form {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  #submit-button {
+    padding: 10px 10px;
+    border: none;
+    background-color: #618BDE;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    max-width: 800px;
+  }
+
+  .form-labels {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: -15px;
+    text-align: left;;
+  }
+  
+  input[type="text"],
+  textarea {
+    max-width: 800px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  button[type="submit"] {
+    grid-column: span 1;
+    background-color: #2c3e50;
+  }
+  
+  /* Table */
+  table {
+    width: 100%;
+    margin: 20px auto;
+    border-collapse: collapse;
+  }
+
+  #cards-table {
+    max-width: 800px;
+  }
+  
+  th,
+td {
+  padding: 15px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: #2c3e50;
+  color: #fff;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.delete-card {
+    padding: 10px 10px;
+    border: none;
+    background-color: #CE77F4;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.table-container {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+  
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  #flashcard-container {
+    width: 90%;
+  }
+
+  randomize-label {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  
+  #database-view {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  form {
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+  }
+
+  .form-labels {
+    display: block;
+    margin-top: 7px;
+    margin-bottom: 3px;
+    text-align: left;;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 10px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+    /* ... */
+    
+    table {
+      width: 100%;
+      table-layout: fixed;
+      font-size: 12px;
+    }
+  
+    th,
+    td {
+      padding: 5px;
+    }
+  
+    #delete-button {
+      font-size: 10px;
+    }
+  }
+  
